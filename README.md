@@ -11,4 +11,5 @@ In this deliverable, you will perform an exploratory data analysis (EDA) on a da
 ## Pre-Analysis Programming: 
 ## Data-Analysis: 
 ## Post-Analysis Discussion: 
-## References
+## References:
+1. https://stackoverflow.com/questions/62207066/pandas-does-not-show-the-complete-csv-file
