@@ -9,6 +9,24 @@ In this deliverable, you will perform an exploratory data analysis (EDA) on a da
 5. Based on your analysis, offer any insights or recommendations regarding the tracks, artists, or musical trends that could be useful for understanding what makes a track popular.
 
 ## Pre-Analysis Programming: 
+### Initializing libraries and opening excel worksheet-
+To start off, the first thing I did was import pandas and matplotlib in preparation for the following data analysis process. The initial line of code is as follows: <br/>
+
+```
+import pandas as pd
+import matplotlib.pyplot as plt
+```
+
+After that, to open the .csv file containing the data I'll be analyzing, I used the .read_csv function in pandas to open the file. To make sure that the file has been read successfully, I tried printing out the data but noticed that the print function did not display all of the data. So, I googled online on how to get the entire worksheet displayed and found that I had to use the display function along with pandas' option_context function (refer to reference 1 in References). The code is implemented as follows:
+
+```
+a = pd.read_csv('spotify-2023.csv') 
+with pd.option_context('display.max_rows', None, 'display.max_columns', None):
+    display(a)
+```
+
+### Data categorization-
+
 ## Data-Analysis: 
 ## Post-Analysis Discussion: 
 ## References:
