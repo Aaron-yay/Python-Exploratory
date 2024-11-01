@@ -31,3 +31,7 @@ with pd.option_context('display.max_rows', None, 'display.max_columns', None):
 ## Post-Analysis Discussion: 
 ## References:
 1. https://stackoverflow.com/questions/62207066/pandas-does-not-show-the-complete-csv-file
+2. https://note.nkmk.me/en/python-pandas-len-shape-size/
+3. https://www.statology.org/pandas-mean-median-mode/
+4. https://seaborn.pydata.org/examples/histogram_stacked.html
+5. https://scales.arabpsychology.com/stats/how-to-change-font-size-in-seaborn-plots-with-examples/#google_vignette
