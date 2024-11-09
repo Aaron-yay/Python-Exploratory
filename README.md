@@ -662,4 +662,5 @@ Numero Uno, Undefeated Champion: Taylor Swift
 2. https://note.nkmk.me/en/python-pandas-len-shape-size/
 3. https://www.statology.org/pandas-mean-median-mode/
 4. https://seaborn.pydata.org/examples/histogram_stacked.html
-5. https://scales.arabpsychology.com/stats/how-to-change-font-size-in-seaborn-plots-with-examples/#google_vignette
+5. https://scales.arabpsychology.com/stats/how-to-change-font-size-in-seaborn-plots-with-examples/#google_vignette\
+6. And ChatGPT 
