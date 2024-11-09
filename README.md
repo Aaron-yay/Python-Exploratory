@@ -276,7 +276,7 @@ I did not use the earlier defined function here since I set it up for a differen
 
 Here, I noticed that Blinding Lights is incredibly famous, having the most amount of streams and that the track "Que Valvas" is not so famous, barely having over 2700 streams. Which I can agree with since Blinding Lights is a song I have seen almost everywhere but it is the first time I have ever heard of Que Valvas.
 
-#### 5 Most Frequently Appearing Artists:
+#### 5 Most Frequently Appearing Artists-
 To find the most frequently appearing artist, I used the following .value_counts and .head functions.
 ```
 top_5 = a['artist(s)_name'].value_counts().head(5).index
@@ -317,7 +317,7 @@ plt.show()
 From here, I've observed that the peak at 2020 is incredibly high. I think we can even consider it the 'golden age' of pop songs.
 
 #### Tracks-Per-Month- 
-Similar to finding the number of tracks per year, the same approach is taken for finding the tracks per month. Finding their frequency and then getting turning it into its own data frame.
+Similar to finding the number of tracks per year, the same approach is taken for finding the tracks per month. Finding their frequency and then getting turning it into its own data frame. Also, I looked up online on how to convert numerical months to their actual names and I was genuinely surprised there was a function for it, which is the to_datetime and month_name function. That lead to:
 ```
 trackpermonth = a['released_month'].value_counts() 
 trackframe = trackpermonth.reset_index()
@@ -423,7 +423,7 @@ display(fd)
 ```
 From here we can now see that spotify playlists is the absolute winner in popularity. Beating the rest of the platforms by almost an exponential degree.
 </br></br>
-Next is the chart mean. The way I 've interpreted this is that the lower the mean, the higher the popularity as that would mean they rank high in the charts. From here we can see that, due to spotify's popularity, they have a more spread out mean. However, in Deezer, they rank much higher most likely due to being a lesser known platform. </br></br>
+Next is the chart mean. The way I 've interpreted this is that the lower the mean, they either have alot of high ranking tracks or lack popularity. From here we can see that, due to spotify's popularity, they have a more spread out mean. However, in Deezer, their mean is much lower most likely due to being a lesser known platform. </br></br>
 Two strange outliers for the top 5 here are apple and shazam. As apple has an extremely distributed mean indicating that the ranking is all over the place and shazam has too little data to work with. Looking back at the data frame, it can be seen that there is a few too many NaNs present there. </br></br>
 
 Surprisingly the bottom 5 gives the most consistent results. Reinforcing that spotify is the most popular pattern, spotify playlist once again is the highest value mean. Another surprising observation is how the bottom 5 all rank higher in charts. So from here we can definitely conclude that streams and charts definitely don't have a directly positive correlation with one another.</br></br>
@@ -441,7 +441,7 @@ ba = fd.drop(index=1)
 barg(ba,'Platform','Average','Platform of Bottom 5[w/o Spotify Playlist]','Average')
 ```
 ### Advanced Analysis:
-From here on, the following 2 attempts are merely just attempts to answer the question. I struggled the most here and took the most time despite it only being 2 questions. </br></br>
+From here on, the following analysis is merely just an attempt to answer the 2 questions. I struggled the most here and took the most time despite it only being 2 questions. </br></br>
 
 #### Finding All the Tracks in Major Modes-
 First, I tried getting the tracks to see if I can spot any patterns via the following code.
@@ -450,7 +450,9 @@ majmode = a.loc[(a['mode']=='Major')]
 with pd.option_context('display.max_rows', None, 'display.max_columns', None): 
     display(majmode)
 ```
-Based on the data frame, there is not much I can find nor say about it. So the next thing I did was plot alot of violin plots to based on their various attributes as follows: 
+#### Major and Minor Mode Distributions-
+ 
+Based on the data frame, there is not much I can find nor say about it. The thought process behind this is trying out to filter the Major Modes to see if I'll notice any patterns, but I'm not able to interpret much. So the next thing I did was plot alot of violin plots to based on their various attributes as follows: 
 ```
 bayolin('bpm', 'BPM Based on Key and Mode', 'BPM Value')
 bayolin('danceability_%','Danceability Based on Key and Mode', 'Danceability Value')
@@ -463,8 +465,8 @@ bayolin('speechiness_%','Speechiness Based on Key and Mode', 'Speechiness Value'
 ```
 From here I noticed a couple of things:
 1. Both major and minor modes have a very balanced distribution in bpm
-2. Danceability and energy are more distributed for major keys but has a frequently higher value for minor keys.
-3. Valence of keys between major and minor share and interesting relationship. With the major keys having lower values and minor keys having higher values
+2. Danceability and energy are more distributed for major modes but has a frequently higher value for minor modes.
+3. Valence of keys between major and minor share and interesting relationship. With the major modes having lower values and minor modes having higher values
 
 #### Finding the Most Popular Songs Based On Platform (Playlists)-
 Here, I tried finding more information on the relation between the various attributes by obtaining them as follows.
@@ -478,6 +480,10 @@ The results here I got are as follows:
 2. Most Popular in Apple = Blinding Lights
 3. Most Popular in Deezer = Smells Like Teen Spirit
 
+</br>
+
+The idea here is that having the highest playlist count means it appears more frequently in playlists, thereby making it the most frequent. Plus I'm surprised to see Daft Punk make it to the list, I like their songs quite a bit.
+
 After that, I concatenated the results as follows.
 ```
 spot = a.loc[a['track_name']=='Get Lucky - Radio Edit']
@@ -487,8 +493,170 @@ playlistt = pd.concat([spot, app, deez], ignore_index=True)
 with pd.option_context('display.max_rows', None, 'display.max_columns', None):
     display(playlistt)
 ```
+By concatenating I'm able to compare their various attributes such as: danceability, valence, energy, and streams. The comparison is done using bar graphs as follows:
+```
+barg(playlistt, 'track_name', 'danceability_%', 'Danceability Comparison of 3 Most Frequent in Playlists', 'Danceability')
+barg(playlistt, 'track_name', 'valence_%', 'Valence Comparison of 3 Most Frequent in Playlists', 'Valence')
+barg(playlistt, 'track_name', 'energy_%', 'Energy Comparison of 3 Most Frequent in Playlists', 'Energy')
+barg(playlistt, 'track_name','streams','Stream Count Comparison of 3 Most Frequent in Playlists', 'Stream Count')
+```
+Here, I've noticed a couple of things, such as the "Get Lucky" having the highest attributes across the board but having the least amount of streams. Alongside that, "Blinding Lights" has the most 'average' attributes but beats both song by its competitors. </br></br>
+Aside from that, the results can also be summed up as:
+1. Spotify - prefers songs with balanced attributes
+2. Apple - prefers energetic, danceable, and upbeat (valence)
+3. Deezer - prefers energetic songs
 
+#### Finding the Most Frequently Appearing Artist-
+First, I made a copy of the main data frame so I don't accidentally tamper with the main and cause a cascading effect that would ruin my entire Jupyter Notebook.
+```
+with pd.option_context('display.max_rows', None, 'display.max_columns', None):
+    display(ey)
+```
+***
+#### Note:
+This is the 'ey' data frame mentioned at the start and the one that will have its columns replaced with artist' names.
+***
+
+
+Before manipulating the copied data frae, the next thing I did was to find the most (number 1) frequently appearing artist in the charts using the .value_counts() 
+```
+spotchart = ey['in_spotify_charts'].value_counts()
+spotchart = spotchart.drop(0, errors='ignore')
+spotcharttop = spotchart.idxmax()
+
+appchart = ey['in_apple_charts'].value_counts()
+appchart = appchart.drop(0, errors='ignore')
+appcharttop = appchart.idxmax()
+
+deezchart = ey['in_deezer_charts'].value_counts()
+deezchart = deezchart.drop(0, errors='ignore')
+deezcharttop = deezchart.idxmax()
+
+shachart = ey['in_shazam_charts'].value_counts()
+shachart = shachart.drop(0, errors='ignore')
+shacharttop = shachart.idxmax()
+
+print(spotcharttop)
+print(appcharttop)
+print(deezcharttop)
+print(shacharttop)
+```
+And the answer for all the charts is: Taylor Swift. I think that this is definitely a reasonable outcome since almost everybody knows Taylor Swift and her songs are known for frequently making it into the top charts. </br></br>
+
+But simply using her won't make do for the analysis since I need more artists, so the next thing I did was get the top 5 instead by using the reset_index and .head functions as follows:
+```
+spotchartdf = spotchart.reset_index()
+spotchartdf.columns = ['Name', 'Frequency']
+spotchartdf = spotchartdf.head(5)
+
+appchartdf = appchart.reset_index()
+appchartdf.columns = ['Name', 'Frequency']
+appchartdf = appchartdf.head(5)
+
+deezchartdf = deezchart.reset_index()
+deezchartdf.columns = ['Name', 'Frequency']
+deezchartdf = deezchartdf.head(5)
+
+shachartdf = shachart.reset_index()
+shachartdf.columns = ['Name', 'Frequency']
+shachartdf = shachartdf.head(5)
+```
+
+After that I graphed them again using bar graphs.
+```
+barg(spotchartdf,'Name','Frequency','Top 5 Most Frequent in Spotify Charts','Frequency')
+barg(appchartdf,'Name','Frequency','Top 5 Most Frequent in Apple Charts','Frequency')
+barg(deezchartdf,'Name','Frequency','Top 5 Most Frequent in Deezer Charts','Frequency')
+barg(shachartdf,'Name','Frequency','Top 5 Most Frequent in Shazam Charts','Frequency')
+```
+From here the results are almost as similar to the analysis I did for streams. However, this time, Taylor Swift dominated all the graphs by being the number 1 in all the charts followed by The Weeknd and Bad Bunny. Which is to be expected as it was stated earlier that she was the most consistent of the bunch.
 ## Summary of Observations: 
+
+#### Data Frame Shape- 
+
+953 Rows
+24 Columns
+
+#### Data Type per Column- 
+
+Totalling to about 17-integers and 7-objects
+
+#### Number of Rows Missing Values- 
+
+137 rows lack information </br>
+and the lacking information usually comes from 'key' </br>
+and 'instrumentalness_%' columns
+
+#### Mean, Median, Mode-
+
+Mean (Observation) - bpm and danceability potential relation </br>
+Median (Observation) - Deezer charts has 0 median indicating that it has small amount of tracks making into its charts </br>
+Mode (Observation) - Tracks with mode 0 either have lacking data or just don't frequently appear
+
+#### Artist Count Distribution Per Year-
+
+Artist count increases around the year 2020. Collaborations between artists have recently become quite popular compared to early 2000s
+
+#### Top 5 and Bottom 5- 
+Blinding Lights is the most streamed. </br></br>
+Que Valvas is the least streamed
+
+#### 5 Most Frequently Appearing Artists- 
+
+Taylor Swift is the most consistent despite The Weeknd winning 
+</br>
+in number of streams.
+
+#### Tracks Released Per Year-
+
+The tracks in the data frame are mostly released between 2020 to 2022
+
+#### Tracks-Per-Month- 
+
+Tracks are most frequently released during the months January and May
+
+#### Attribute Comparison of Top 5 and Bottom 5- 
+
+Energy seems to be a major factor but not the deciding factor, alot of it still depends on the song. Valence and Danceability also seem to play a role. </br></br>
+
+The bottom 5 songs also shows similar results which confirms them as not being the deciding factor.
+
+#### Comparison between Danceabiltity and Energy- 
+
+Danceability and Energy share an interesting relationship. Extreme energy is not always highly danceable and vice versa.
+
+#### Finding the Most Popular Platform Playlists- 
+
+Spotify Playlist is the most popular platform. </br></br>
+
+Spotify has a spread out Chart mean. Apple has a very large Chart mean indicating its rankings are all over the place in the data frame and Shazam has miniscule Chart mean due to lack of data. 
+</br></br> 
+
+Surprisingly, the bottom 5 in streams have the most consistent results in charts
+
+#### Major and Minor Mode Distributions-
+
+1. Major and Minor distributions are balanced </br>
+2. Danceability and Energy are usually higher for minor mode </br>
+3. Higher Valence for minor and lower for major modes
+
+#### Finding the Most Popular Songs Based On Platform (Playlists)-
+
+Spotify - Get Lucky </br>
+Apple - Blinding Lights </br>
+Deezer - Smells Like Teen Spirit </br>
+
+#### (Extra) Preferred attributes per platform-
+
+Spotify - Balance </br>
+Apple - Energetic, Upbeat, Danceable
+Deezer - Energetic
+
+#### Finding the Most Frequently Appearing Artist-
+
+Numero Uno, Undefeated Champion: Taylor Swift
+
+
 ## References:
 1. https://stackoverflow.com/questions/62207066/pandas-does-not-show-the-complete-csv-file
 2. https://note.nkmk.me/en/python-pandas-len-shape-size/
